@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WyreIt — All your platforms. One signal.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --warm-white: #F4F2ED;
+    --off-white:  #EAE8E2;
+    --paper:      #EEECE6;
+    --charcoal:   #1C1C1A;
+    --charcoal-mid: #2C2C2A;
+    --mid-grey:   #5F5E5A;
+    --light-grey: #B4B2A9;
+    --border:     #D8D5CE;
+    --green:      #1D9E75;
+    --green-light:#5DCAA5;
+    --green-dim:  #0F6E56;
+    --green-bg:   #E6F5EF;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 52px;
+    background: rgba(244,242,237,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo svg { width:38px; height:38px; }
+
+  .nav-wordmark {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 21px;
+    color: var(--charcoal);
+    letter-spacing: -0.04em;
+  }
+  .nav-wordmark span { color: var(--green); }
+
+  .nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--mid-grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--charcoal); }
+
+  .nav-cta {
+    background: var(--charcoal) !important;
+    color: var(--warm-white) !important;
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-weight: 500 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: #3a3a38 !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 130px 52px 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--warm-white);
+  }
+
+  /* Subtle dot grid */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 36px 36px;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* Large faint watermark W */
+  .hero::after {
+    content: 'W';
+    position: absolute;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 560px;
+    color: rgba(29,158,117,0.055);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -52%);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-bg);
+    border: 0.5px solid #9FE1CB;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--green-dim);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 2s ease infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity:1; }
+    50% { opacity:0.3; }
+  }
+
+  .hero h1 {
+    position: relative;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 9vw, 96px);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .accent { color: var(--green); }
+
+  .hero-tagline {
+    position: relative;
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 2.8vw, 26px);
+    font-weight: 600;
+    color: var(--mid-grey);
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-sub {
+    position: relative;
+    max-width: 540px;
+    font-size: 17px;
+    color: var(--mid-grey);
+    line-height: 1.75;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-actions {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn-primary {
+    background: var(--charcoal);
+    color: var(--warm-white);
+    padding: 15px 36px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: #3a3a38; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--mid-grey);
+    padding: 15px 36px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-decoration: none;
+    border: 0.5px solid var(--border);
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-secondary:hover { border-color: var(--mid-grey); color: var(--charcoal); transform: translateY(-1px); }
+
+  /* ── PLATFORM STRIP ── */
+  .platforms {
+    background: var(--off-white);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 28px 52px;
+    text-align: center;
+  }
+
+  .platforms p {
+    font-size: 11px;
+    color: var(--light-grey);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .platform-pills { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--warm-white);
+    border: 0.5px solid var(--border);
+    border-radius: 24px;
+    padding: 7px 16px;
+    font-size: 13px;
+    color: var(--mid-grey);
+    transition: all 0.2s;
+  }
+  .pill:hover { border-color: var(--mid-grey); color: var(--charcoal); }
+  .pill-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* ── APP PREVIEW ── */
+  .preview {
+    padding: 72px 52px;
+    display: flex;
+    justify-content: center;
+    background: var(--warm-white);
+  }
+
+  .app-frame {
+    width: 100%;
+    max-width: 880px;
+    background: #FAFAF8;
+    border-radius: 16px;
+    border: 0.5px solid var(--border);
+    overflow: hidden;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .frame-bar {
+    background: var(--off-white);
+    padding: 13px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .frame-dots { display:flex; gap:6px; }
+  .frame-dot { width:11px; height:11px; border-radius:50%; }
+
+  .frame-url {
+    flex: 1;
+    background: var(--warm-white);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--light-grey);
+    text-align: center;
+  }
+
+  .frame-body {
+    display: grid;
+    grid-template-columns: 58px 1fr 264px;
+    height: 390px;
+  }
+
+  .f-sidebar {
+    background: var(--off-white);
+    border-right: 0.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    gap: 6px;
+  }
+
+  .f-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--light-grey);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .f-icon:hover { background: var(--warm-white); color: var(--mid-grey); }
+  .f-icon.active { background: var(--warm-white); color: var(--green); border: 0.5px solid var(--border); }
+
+  .f-feed {
+    padding: 14px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--warm-white);
+  }
+
+  .f-post {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    border: 0.5px solid var(--border);
+  }
+
+  .f-post-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+
+  .f-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 500; flex-shrink:0;
+  }
+
+  .f-name { font-size:12px; font-weight:500; color:var(--charcoal); }
+  .f-time { font-size:10px; color:var(--light-grey); }
+
+  .f-platform {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    font-weight: 500; margin-left: auto;
+  }
+
+  .f-body { font-size:12px; color:var(--mid-grey); line-height:1.5; margin-bottom:8px; }
+  .f-actions { display:flex; gap:14px; }
+  .f-act { font-size:10px; color:var(--light-grey); display:flex; align-items:center; gap:3px; }
+
+  .f-compose {
+    border-left: 0.5px solid var(--border);
+    background: var(--off-white);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .compose-label { font-size:11px; font-weight:500; color:var(--mid-grey); margin-bottom:2px; }
+
+  .f-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--warm-white);
+    border-radius: 8px; padding: 6px 10px;
+    border: 0.5px solid var(--border);
+  }
+
+  .f-tname { font-size:11px; color:var(--mid-grey); display:flex; align-items:center; gap:6px; }
+
+  .tog {
+    width: 26px; height: 14px; border-radius: 7px;
+    position: relative; flex-shrink:0;
+  }
+  .tog::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: white; top: 2px; left: 2px;
+    transition: left 0.15s;
+  }
+  .tog.on { background: var(--green); }
+  .tog.on::after { left: 14px; }
+  .tog.off { background: var(--border); }
+
+  .f-textarea {
+    flex: 1;
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 11px;
+    color: var(--charcoal);
+    resize: none;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+    outline: none;
+  }
+
+  .f-send {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .f-send:hover { background: var(--green-dim); }
+
+  /* ── SECTIONS ── */
+  section { padding: 96px 52px; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--charcoal);
+    margin-bottom: 56px;
+  }
+
+  /* ── STEPS ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+  }
+
+  .step {
+    background: var(--warm-white);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+  .step:hover { background: white; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    color: rgba(29,158,117,0.18);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.05em;
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+  }
+
+  .step-body { font-size: 14px; color: var(--mid-grey); line-height: 1.65; }
+
+  /* ── FEATURES ── */
+  .features-section { background: var(--paper); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+  }
+
+  .feature {
+    background: var(--warm-white);
+    padding: 36px 30px;
+    transition: background 0.2s;
+  }
+  .feature:hover { background: white; }
+
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--green-bg);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    color: var(--green);
+  }
+
+  .feature-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .feature-body { font-size: 14px; color: var(--mid-grey); line-height: 1.65; }
+
+  /* ── QUOTES ── */
+  .quotes { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+
+  .quote-card {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+  }
+
+  .quote-text {
+    font-size: 15px;
+    color: var(--mid-grey);
+    line-height: 1.75;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .quote-author { display:flex; align-items:center; gap:10px; }
+
+  .q-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500;
+  }
+
+  .q-name { font-size:13px; font-weight:500; color:var(--charcoal); }
+  .q-handle { font-size:11px; color:var(--light-grey); }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin: 0 52px 96px;
+    background: var(--charcoal);
+    border-radius: 20px;
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(29,158,117,0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    position: relative;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px,5vw,58px);
+    letter-spacing: -0.04em;
+    color: var(--warm-white);
+    margin-bottom: 14px;
+  }
+
+  .cta-section h2 span { color: var(--green); }
+
+  .cta-section p {
+    position: relative;
+    font-size: 17px;
+    color: var(--mid-grey);
+    margin-bottom: 40px;
+  }
+
+  .cta-email {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  .cta-email input {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 15px;
+    color: var(--warm-white);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  .cta-email input::placeholder { color: rgba(255,255,255,0.3); }
+  .cta-email input:focus { border-color: var(--green); }
+
+  .cta-email button {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .cta-email button:hover { background: var(--green-dim); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 36px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--charcoal);
+    letter-spacing: -0.03em;
+  }
+  .footer-logo span { color: var(--green); }
+
+  .footer-links { display:flex; gap:24px; }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--light-grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--charcoal); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .reveal { opacity:0; transform:translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="2,8 10,8 18,34 24,16 30,34 38,8 46,8 34,42 24,24 14,42" fill="#1C1C1A"/>
+      <path d="M37 15 Q48 22 37 31" stroke="#1D9E75" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M40 9 Q55 22 40 37" stroke="#1D9E75" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M43 4 Q62 22 43 42" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.25"/>
+    </svg>
+    <span class="nav-wordmark">Wyre<span>It</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#early">Early access</a></li>
+    <li><a href="#early" class="nav-cta">Get early access</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Coming soon &mdash; join the waitlist</div>
+  <h1>All your platforms.<br><span class="accent">One signal.</span></h1>
+  <p class="hero-tagline">Write once. WyreIt everywhere.</p>
+  <p class="hero-sub">WyreIt connects all your social media into one clean interface. Post, message, and broadcast to Facebook, Instagram, X, TikTok, WhatsApp and more &mdash; simultaneously, instantly, effortlessly.</p>
+  <div class="hero-actions">
+    <a href="#early" class="btn-primary">Get early access &rarr;</a>
+    <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<div class="platforms">
+  <p>Connects with all your platforms</p>
+  <div class="platform-pills">
+    <div class="pill"><div class="pill-dot" style="background:#1877F2;"></div>Facebook</div>
+    <div class="pill"><div class="pill-dot" style="background:#E1306C;"></div>Instagram</div>
+    <div class="pill"><div class="pill-dot" style="background:#1C1C1A;"></div>X / Twitter</div>
+    <div class="pill"><div class="pill-dot" style="background:#ff0050;"></div>TikTok</div>
+    <div class="pill"><div class="pill-dot" style="background:#25D366;"></div>WhatsApp</div>
+    <div class="pill"><div class="pill-dot" style="background:#0084FF;"></div>Messenger</div>
+    <div class="pill" style="border-style:dashed;color:var(--light-grey);">+ more coming</div>
+  </div>
+</div>
+
+<!-- APP PREVIEW -->
+<div class="preview">
+  <div class="app-frame">
+    <div class="frame-bar">
+      <div class="frame-dots">
+        <div class="frame-dot" style="background:#FF5F57;"></div>
+        <div class="frame-dot" style="background:#FEBC2E;"></div>
+        <div class="frame-dot" style="background:#28C840;"></div>
+      </div>
+      <div class="frame-url">wyreit.app &mdash; dashboard</div>
+    </div>
+    <div class="frame-body">
+
+      <div class="f-sidebar">
+        <div class="f-icon active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="f-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <div class="f-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="f-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+      </div>
+
+      <div class="f-feed">
+        <div class="f-post">
+          <div class="f-post-head">
+            <div class="f-avatar" style="background:#DBEAFE;color:#1d4ed8;">AJ</div>
+            <div><div class="f-name">Alex Johnson</div><div class="f-time">2 min ago</div></div>
+            <div class="f-platform" style="background:#EFF6FF;color:#1d4ed8;">Facebook</div>
+          </div>
+          <div class="f-body">Just found the most incredible hiking trail in the Peak District. Views were absolutely unreal &#x1F3D4;</div>
+          <div class="f-actions"><div class="f-act">&#9825; 48</div><div class="f-act">&#128172; 12</div></div>
+        </div>
+        <div class="f-post">
+          <div class="f-post-head">
+            <div class="f-avatar" style="background:#F1EFE8;color:#444441;">MR</div>
+            <div><div class="f-name">@mia_creates</div><div class="f-time">18 min ago</div></div>
+            <div class="f-platform" style="background:#F1EFE8;color:#444441;">X</div>
+          </div>
+          <div class="f-body">Managing 5 social accounts was slowly draining me. This changes everything.</div>
+          <div class="f-actions"><div class="f-act">&#9825; 312</div><div class="f-act">&#8635; 89</div></div>
+        </div>
+        <div class="f-post">
+          <div class="f-post-head">
+            <div class="f-avatar" style="background:#FCE7F3;color:#be185d;">SK</div>
+            <div><div class="f-name">sofia.k</div><div class="f-time">1 hr ago</div></div>
+            <div class="f-platform" style="background:#FDF2F8;color:#be185d;">Instagram</div>
+          </div>
+          <div class="f-body">Golden hour this morning was everything &#10024; #Photography #GoldenHour</div>
+          <div class="f-actions"><div class="f-act">&#9825; 1.2k</div><div class="f-act">&#128172; 89</div></div>
+        </div>
+      </div>
+
+      <div class="f-compose">
+        <div class="compose-label">Broadcast to</div>
+        <div class="f-toggle">
+          <div class="f-tname"><div style="width:8px;height:8px;border-radius:50%;background:#1877F2;"></div>Facebook</div>
+          <div class="tog on"></div>
+        </div>
+        <div class="f-toggle">
+          <div class="f-tname"><div style="width:8px;height:8px;border-radius:50%;background:#1C1C1A;"></div>X / Twitter</div>
+          <div class="tog on"></div>
+        </div>
+        <div class="f-toggle">
+          <div class="f-tname"><div style="width:8px;height:8px;border-radius:50%;background:#E1306C;"></div>Instagram</div>
+          <div class="tog on"></div>
+        </div>
+        <div class="f-toggle">
+          <div class="f-tname"><div style="width:8px;height:8px;border-radius:50%;background:#ff0050;"></div>TikTok</div>
+          <div class="tog off"></div>
+        </div>
+        <textarea class="f-textarea" rows="3">Just discovered WyreIt and I'm never going back to juggling 5 apps &#x1F64C;</textarea>
+        <button class="f-send">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          WyreIt
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="section-label reveal">How it works</div>
+    <div class="section-title reveal">Three steps.<br>Total freedom.</div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Connect your accounts</div>
+        <div class="step-body">Link Facebook, Instagram, X, TikTok, WhatsApp and Messenger in seconds. One secure login per platform via OAuth.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Write once</div>
+        <div class="step-body">Compose your post, message or update in WyreIt's clean editor. Add photos, videos or links just like you normally would.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">WyreIt everywhere</div>
+        <div class="step-body">Choose your platforms with a tap and broadcast instantly. All platforms update simultaneously &mdash; no copy-pasting, no app switching.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features-section">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="section-label reveal">Features</div>
+    <div class="section-title reveal">Everything in<br>one signal.</div>
+    <div class="features-grid reveal">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <div class="feature-title">One-tap broadcast</div>
+        <div class="feature-body">Post to every platform simultaneously. Toggle platforms on or off per post &mdash; full control, zero friction.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="feature-title">Unified messaging</div>
+        <div class="feature-body">Send DMs via Messenger, Instagram, X and WhatsApp from one inbox. One platform or all at once.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="feature-title">Unified feed</div>
+        <div class="feature-body">All your platforms in one scrollable timeline. Filter by platform or see everything together.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+        </div>
+        <div class="feature-title">Photo &amp; video</div>
+        <div class="feature-body">Upload once, publish everywhere. WyreIt handles format optimisation per platform automatically.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="feature-title">Schedule posts</div>
+        <div class="feature-body">Plan ahead. Schedule any post to go live across all platforms at exactly the right time.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feature-title">Private &amp; secure</div>
+        <div class="feature-body">Your credentials never leave your device. OAuth authentication, zero data selling, ever.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES -->
+<section>
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="section-label reveal">Early reactions</div>
+    <div class="section-title reveal">People are ready<br>for this.</div>
+    <div class="quotes reveal">
+      <div class="quote-card">
+        <div class="quote-text">"I spend 40 minutes a day copying posts between apps. WyreIt is the product I've been waiting for since social media existed."</div>
+        <div class="quote-author">
+          <div class="q-avatar" style="background:#DBEAFE;color:#1d4ed8;">TK</div>
+          <div><div class="q-name">Tom K.</div><div class="q-handle">Content creator, London</div></div>
+        </div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"Finally. One place. No more opening five apps just to tell people the same thing. The idea is so obvious it hurts."</div>
+        <div class="quote-author">
+          <div class="q-avatar" style="background:#FCE7F3;color:#be185d;">SR</div>
+          <div><div class="q-name">Sarah R.</div><div class="q-handle">Small business owner</div></div>
+        </div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"The unified messaging alone would sell me. I hate switching between WhatsApp and Messenger just to talk to different people."</div>
+        <div class="quote-author">
+          <div class="q-avatar" style="background:#D1FAE5;color:#065f46;">JP</div>
+          <div><div class="q-name">James P.</div><div class="q-handle">Beta tester, Manchester</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="early">
+  <h2>Be first to <span>WyreIt.</span></h2>
+  <p>Join the waitlist. Get early access before public launch.</p>
+  <div class="cta-email">
+    <input type="email" id="emailInput" placeholder="your@email.com">
+    <button id="joinBtn">Join waitlist</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Wyre<span>It</span></div>
+  <p style="font-size:13px;color:var(--light-grey);">&#169; 2026 WyreIt &mdash; wyreit.app</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.getElementById('joinBtn').addEventListener('click', () => {
+    const input = document.getElementById('emailInput');
+    if (input.value && input.value.includes('@')) {
+      input.value = '';
+      input.placeholder = "You're on the list! We'll be in touch.";
+      input.style.borderColor = '#1D9E75';
+      document.getElementById('joinBtn').textContent = 'Done!';
+      document.getElementById('joinBtn').style.background = '#0F6E56';
+    }
+  });
+</script>
+</body>
+</html>
